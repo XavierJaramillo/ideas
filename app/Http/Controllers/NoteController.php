@@ -4,9 +4,27 @@ namespace App\Http\Controllers;
 
 use App\Models\Note;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class NoteController extends Controller
 {
+    /**
+     * Recoge los datos del formulario
+     */
+    public function recibir(Request $request) {
+        $notas=$request->except('_token', 'Crear');
+        DB::table('notes')->insertGetId(['title'=>$notas['title'],'description'=>$notas['description']]);
+        return redirect('mostrar');
+    }
+
+    /**
+     * Envia los datos de la BD a la vista para asi poder hacer un foreach y mostrar las notas
+     */
+    public function mostrar() {
+        $listaNotas = DB::table('notes')->get();
+        return view('home', compact('listaNotas'));
+    }
+
     /**
      * Display a listing of the resource.
      *
