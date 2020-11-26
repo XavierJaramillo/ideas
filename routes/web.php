@@ -21,3 +21,4 @@ Route::get('/mostrar', [NoteController::class, 'mostrar']);
 Route::get('/crear', [NoteController::class, 'crear']);
 Route::delete('/borrar/{id}', [NoteController::class, 'borrar']);
 Route::post('/recibir', [NoteController::class, 'recibir']);
+Route::post('/modificar/{id}', [NoteController::class, 'modificar']);

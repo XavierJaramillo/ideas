@@ -55,50 +55,50 @@
                           <!-- Modal -->
                           <div id="myModal{{$nota->id}}" class="modal fade" role="dialog">
                             <div class="modal-dialog modal-xl">
-
                               <!-- Modal content-->
                               <div class="modal-content">
-                                <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                </div>
-                                <div class="modal-body">
-                                  <table class="table">
-                                    <thead class="thead-dark">
-                                    <tr>
-                                      <th scope="col">ID</th>
-                                      <th scope="col">Titulo</th>
-                                      <th scope="col">Descripción</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                      <form>
-                                        <td>
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <table class="table">
+                                      <thead class="thead-dark">
+                                      <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Titulo</th>
+                                        <th scope="col">Descripción</th>
+                                      </tr>
+                                      </thead>
+                                      <tbody>
+                                        <form action="{{url('/modificar/'.$nota->id)}}" method="POST">
+                                          @csrf
+                                          <td>
+                                            <div class="form-group">
+                                              <label for="recipient-name" class="col-form-label">ID:</label>
+                                              <input type="text" class="form-control" id="recipient-name" value="{{$nota->id}}" readonly>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div class="form-group">
+                                              <label for="recipient-name" class="col-form-label">Titulo:</label>
+                                              <input type="text" class="form-control" id="recipient-name" value="{{$nota->title}}" required>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <div class="form-group">
+                                              <label for="message-text" class="col-form-label">Descripción:</label>
+                                              <textarea class="form-control" id="message-text" required>{{$nota->description}}</textarea>
+                                            </div>
+                                          </td>
                                           <div class="form-group">
-                                            <label for="recipient-name" class="col-form-label">ID:</label>
-                                            <input type="text" class="form-control" id="recipient-name" value="{{$nota->id}}" readonly>
+                                            <input type="submit" name="Cancelar" value="Cancelar" class="btn btn-danger" data-dismiss="modal">
+                                            <input type="submit" name="Enviar" value="Enviar" class="btn btn-success" data-dismiss="modal">
                                           </div>
-                                        </td>
-                                        <td>
-                                          <div class="form-group">
-                                            <label for="recipient-name" class="col-form-label">Titulo:</label>
-                                            <input type="text" class="form-control" id="recipient-name" value="{{$nota->title}}">
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div class="form-group">
-                                            <label for="message-text" class="col-form-label">Descripción:</label>
-                                            <textarea class="form-control" id="message-text">{{$nota->description}}</textarea>
-                                          </div>
-                                        </td>
-                                      </form>
-                                    </tbody>
-                                  </table>
-                                </div>
-                                <div class="modal-footer">
-                                  <button type="button" class="btn btn-success" data-dismiss="modal">Aceptar</button>
-                                </div>
+                                        </form>
+                                      </tbody>
+                                    </table>
+                                  </div>
                               </div>
-
                             </div>
                           </div>
                       </td>

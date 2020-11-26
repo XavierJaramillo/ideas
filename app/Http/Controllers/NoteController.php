@@ -9,6 +9,20 @@ use Illuminate\Support\Facades\DB;
 class NoteController extends Controller
 {
     /**
+     * Actuliza el usuario especificado por el parametro de entrada (id)
+     */
+    public function modificar($id, Request $request) {
+        echo $request;
+        echo $id;
+        //Recibir los datos del formulario con el request
+        $datos = $request->except('_token','Enviar','_method');
+        //Actualizar la bd con los datos recibidos
+        DB::table('notes')->where('id','=',$id)->update($datos);
+        //Redirigir a mostrar
+        return redirect('mostrar');
+    }
+
+    /**
      * Recoge los datos del formulario
      */
     public function recibir(Request $request) {
