@@ -15,10 +15,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Default
-Route::get('/', [NoteController::class, 'mostrar'])->name('home');
+Route::get('/', [NoteController::class, 'index'])->name('home');
 // CRUD
-Route::get('/mostrar', [NoteController::class, 'mostrar']);
-Route::get('/crear', [NoteController::class, 'crear']);
-Route::delete('/borrar/{id}', [NoteController::class, 'borrar']);
-Route::post('/recibir', [NoteController::class, 'recibir']);
-Route::post('/modificar/{id}', [NoteController::class, 'modificar']);
+Route::post('mostrar', [NoteController::class, 'mostrar']);
+Route::post('crear', [NoteController::class, 'crear']);
+Route::post('borrar', [NoteController::class, 'borrar']);
+Route::post('modificar', [NoteController::class, 'modificar']);

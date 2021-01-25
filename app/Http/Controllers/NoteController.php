@@ -9,34 +9,48 @@ use Illuminate\Support\Facades\DB;
 class NoteController extends Controller
 {
     /**
-     * Actuliza el usuario especificado por el parametro de entrada (id)
+     * Crea una nota nueva
      */
-    public function modificar($id, Request $request) {
-        echo $request;
-        echo $id;
-        //Recibir los datos del formulario con el request
-        $datos = $request->except('_token','Enviar','_method');
-        //Actualizar la bd con los datos recibidos
-        DB::table('notes')->where('id','=',$id)->update($datos);
-        //Redirigir a mostrar
-        return redirect('mostrar');
+    public function crear(Request $request)
+    {
+        DB::table('notes')->insertGetId(['title'=>$request->input('title'),'description'=>$request->input('description')]);
+        return redirect('/');
     }
 
     /**
-     * Recoge los datos del formulario
+     * Borrar por id
      */
-    public function recibir(Request $request) {
-        $notas=$request->except('_token', 'Crear');
-        DB::table('notes')->insertGetId(['title'=>$notas['title'],'description'=>$notas['description']]);
-        return redirect('mostrar');
+    public function borrar(Request $request) {
+        DB::table('notes')->where('id', "=", $request->input('num'))->delete();
+        return redirect('/');
+    }
+
+    /**
+     * Actuliza el usuario especificado por el parametro de entrada (id)
+     */
+    public function modificar(Request $request) {
+        //Recibir los datos del formulario con el request
+        $datos = $request->except('_token');
+        //Actualizar la bd con los datos recibidos
+        DB::table('notes')->where('id','=',$request->input('id'))->update($datos);
+        //Redirigir a mostrar
+        return redirect('/');
     }
 
     /**
      * Envia los datos de la BD a la vista para asi poder hacer un foreach y mostrar las notas
      */
-    public function mostrar() {
-        $listaNotas = DB::table('notes')->get();
-        return view('home', compact('listaNotas'));
+    public function mostrar(Request $request) {
+        $filtro=$request->input('filtro');
+
+        if ($filtro!=null) {
+            $notas=DB::select('select * from notes where title like ?' ,["%".$filtro."%"]);
+        }else{
+            $notas = DB::select('select * from notes');
+        }
+
+        //return JSON
+        return response()->json($notas, 200);
     }
 
     /**
@@ -47,16 +61,6 @@ class NoteController extends Controller
     public function index()
     {
         return view('home');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**
