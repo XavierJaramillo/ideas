@@ -13,16 +13,25 @@ class NoteController extends Controller
      */
     public function crear(Request $request)
     {
-        DB::table('notes')->insertGetId(['title'=>$request->input('title'),'description'=>$request->input('description')]);
-        return redirect('/');
+        try {
+            DB::table('notes')->insertGetId(['title'=>$request->input('title'),'description'=>$request->input('description')]);
+            return response()->json(array('resultado'=>'OK'),200);
+        } catch (\Throwable $th) {
+            return response()->json(array('resultado'=>'NOK '.$th->getMessage()),200);
+        }
+        
     }
 
     /**
      * Borrar por id
      */
     public function borrar(Request $request) {
-        DB::table('notes')->where('id', "=", $request->input('num'))->delete();
-        return redirect('/');
+        try {
+            DB::table('notes')->where('id', "=", $request->input('num'))->delete();
+            return response()->json(array('resultado'=>'OK'),200);
+        } catch (\Throwable $th) {
+            return response()->json(array('resultado'=>'NOK '.$th->getMessage()),200);
+        }
     }
 
     /**
@@ -31,10 +40,13 @@ class NoteController extends Controller
     public function modificar(Request $request) {
         //Recibir los datos del formulario con el request
         $datos = $request->except('_token');
-        //Actualizar la bd con los datos recibidos
-        DB::table('notes')->where('id','=',$request->input('id'))->update($datos);
-        //Redirigir a mostrar
-        return redirect('/');
+        try {
+            //Actualizar la bd con los datos recibidos
+            DB::table('notes')->where('id','=',$request->input('id'))->update($datos);
+            return response()->json(array('resultado'=>'OK'),200);
+        } catch (\Throwable $th) {
+            return response()->json(array('resultado'=>'NOK '.$th->getMessage()),200);
+        }
     }
 
     /**
@@ -42,15 +54,13 @@ class NoteController extends Controller
      */
     public function mostrar(Request $request) {
         $filtro=$request->input('filtro');
-
-        if ($filtro!=null) {
+        try {
             $notas=DB::select('select * from notes where title like ?' ,["%".$filtro."%"]);
-        }else{
-            $notas = DB::select('select * from notes');
+            //return JSON
+            return response()->json($notas, 200);
+        } catch (\Throwable $th) {
+            return response()->json(array('resultado'=>'NOK '.$th->getMessage()),200);
         }
-
-        //return JSON
-        return response()->json($notas, 200);
     }
 
     /**

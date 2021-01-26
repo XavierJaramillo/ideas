@@ -10,13 +10,12 @@
     <title>Ideas</title>
 </head>
 <body>
-    
 
     <div class="container px-lg-5 pt-5">
         <h3>Nota</h3>
         <div class="row mx-lg-n5">
           <div class="col py-3 px-lg-5 border bg-light">
-
+            <form id="formCrear" onsubmit="return false;">
               <div class="form-group">
                   <label for="title">Título</label><br>
                   <input class="form-control" type="text" id="title" name="title" placeholder="Título...">
@@ -31,7 +30,7 @@
               <div class="form-group">
                 <p id="cambios">Aquí verás los últimos cambios...</p>
               </div>
-
+            </form>
           </div>
           <div class="col py-3 px-lg-5 border bg-light">
             <div class="form-group">

@@ -33,6 +33,7 @@ function mostrar() {
     var section = document.getElementById('body');
     var buscador = document.getElementById('buscador').value;
     var token = document.getElementById('token').getAttribute('content');
+
     var ajax = new objetoAjax();
     ajax.open('post', 'mostrar', true);
     var datasend = new FormData();
@@ -99,6 +100,7 @@ function mostrar() {
 }
 
 function crearNota() {
+    var form = document.getElementById('formCrear');
     var title = document.getElementById('title').value;
     var description = document.getElementById('description').value;
     var token = document.getElementById('token').getAttribute('content');
@@ -114,13 +116,17 @@ function crearNota() {
 
     ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200) {
+            var respuesta = JSON.parse(ajax.responseText);
             msg.innerHTML = "Nota añadida correctamente!";
+            setTimeout(function() {
+                msg.innerHTML = "";
+                form.reset();
+            }, 2000);
             mostrar();
         } else {
-            msg.innerHTML = "Algo ha fallado!";
+            msg.innerHTML = "Algo ha fallado!" + respuesta.resultado;
         }
     }
-
     ajax.send(datasend);
 }
 
@@ -141,11 +147,15 @@ function editarNota(id) {
 
     ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200) {
+            var respuesta = JSON.parse(ajax.responseText);
             msg.innerHTML = "Nota modificada correctamente!";
+            setTimeout(function() {
+                msg.innerHTML = "";
+            }, 3000);
             mostrar();
             closeModal(id);
         } else {
-            msg.innerHTML = "Algo ha fallado!";
+            msg.innerHTML = "Algo ha fallado!" + respuesta.resultado;
         }
     }
 
@@ -165,10 +175,14 @@ function borrarNota(num) {
 
     ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200) {
+            var respuesta = JSON.parse(ajax.responseText);
             msg.innerHTML = "Nota borrada correctamente!";
+            setTimeout(function() {
+                msg.innerHTML = "";
+            }, 3000);
             mostrar();
         } else {
-            msg.innerHTML = "Algo ha fallado!";
+            msg.innerHTML = "Algo ha fallado!" + respuesta.resultado;
         }
     }
     ajax.send(datasend);
