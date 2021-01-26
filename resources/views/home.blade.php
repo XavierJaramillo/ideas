@@ -28,6 +28,9 @@
               <div class="form-group">
                   <input class="btn btn-success" type="submit" name="Crear" value="Crear" onclick="crearNota()">
               </div>
+              <div class="form-group">
+                <p id="cambios">Aquí verás los últimos cambios...</p>
+              </div>
 
           </div>
           <div class="col py-3 px-lg-5 border bg-light">

@@ -64,17 +64,17 @@ function mostrar() {
                 tabla += '<tbody>';
                 tabla += '<td>';
                 tabla += '<div class="form-group">';
-                tabla += '<input type="text" class="form-control" id="recipient-name' + respuesta[i].id + '" value="' + respuesta[i].id + '" readonly>';
+                tabla += '<input type="text" class="form-control" id="updateId' + respuesta[i].id + '" value="' + respuesta[i].id + '" readonly>';
                 tabla += '</div>';
                 tabla += '</td>';
                 tabla += '<td>';
                 tabla += '<div class="form-group">';
-                tabla += '<input type="text" class="form-control" name="description" value="' + respuesta[i].title + '" required>';
+                tabla += '<input type="text" class="form-control" id="updateTitle' + respuesta[i].id + '" value="' + respuesta[i].title + '" required>';
                 tabla += '</div>';
                 tabla += '</td>';
                 tabla += '<td>';
                 tabla += '<div class="form-group">';
-                tabla += '<textarea class="form-control" name="description" required>' + respuesta[i].description + '</textarea>';
+                tabla += '<textarea class="form-control" id="updateDesc' + respuesta[i].id + '" required>' + respuesta[i].description + '</textarea>';
                 tabla += '</div>';
                 tabla += '</td>';
                 tabla += '</tbody>';
@@ -102,6 +102,7 @@ function crearNota() {
     var title = document.getElementById('title').value;
     var description = document.getElementById('description').value;
     var token = document.getElementById('token').getAttribute('content');
+    var msg = document.getElementById('cambios');
 
     var ajax = new objetoAjax();
     ajax.open('POST', 'crear', true);
@@ -113,7 +114,10 @@ function crearNota() {
 
     ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200) {
+            msg.innerHTML = "Nota añadida correctamente!";
             mostrar();
+        } else {
+            msg.innerHTML = "Algo ha fallado!";
         }
     }
 
@@ -121,9 +125,10 @@ function crearNota() {
 }
 
 function editarNota(id) {
-    var title = document.getElementById('title').value;
-    var description = document.getElementById('description').value;
+    var title = document.getElementById('updateTitle' + id).value;
+    var description = document.getElementById('updateDesc' + id).value;
     var token = document.getElementById('token').getAttribute('content');
+    var msg = document.getElementById('cambios');
 
     var ajax = new objetoAjax();
     ajax.open('POST', 'modificar', true);
@@ -136,8 +141,11 @@ function editarNota(id) {
 
     ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200) {
+            msg.innerHTML = "Nota modificada correctamente!";
             mostrar();
             closeModal(id);
+        } else {
+            msg.innerHTML = "Algo ha fallado!";
         }
     }
 
@@ -146,6 +154,7 @@ function editarNota(id) {
 
 function borrarNota(num) {
     var token = document.getElementById('token').getAttribute('content');
+    var msg = document.getElementById('cambios');
 
     var ajax = new objetoAjax();
     ajax.open('post', 'borrar', true);
@@ -156,7 +165,10 @@ function borrarNota(num) {
 
     ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200) {
+            msg.innerHTML = "Nota borrada correctamente!";
             mostrar();
+        } else {
+            msg.innerHTML = "Algo ha fallado!";
         }
     }
     ajax.send(datasend);
